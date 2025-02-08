@@ -5,9 +5,10 @@ This project enables automation of ChatGPT interactions using Selenium WebDriver
 ## Setup Instructions
 
 ### Step 1: Launch Chrome Browser
-Macos:
+Install dependencies:
 `pip install -r reqs.txt`
 
+Macos:
 Launch Chrome with remote debugging port enabled:
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
