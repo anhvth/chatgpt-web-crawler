@@ -42,3 +42,13 @@ If ChatGPT's interface changes, update CSS selectors in `config.py`:
 2. Copy element HTML
 3. Use ChatGPT to generate the correct CSS selector
 # chatgpt-web-crawler
+
+
+## Known Limitations & Best Practices
+
+### Browser Configuration
+- Headless mode is not recommended as it frequently causes compatibility issues with ChatGPT's interface
+- Use your default Chrome profile to:
+   - Avoid login detection issues
+   - Prevent bot detection mechanisms
+   - Maintain existing session cookies
