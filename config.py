@@ -1,3 +1,5 @@
+import pandas as pd
+
 # Path to the ChromeDriver executable
 CHROME_DRIVER_PATH = "binary/chromedriver-mac-arm64/chromedriver-mac-arm64/chromedriver"
 
@@ -23,13 +25,8 @@ LOG_DIR = "data/logs"
 DEBUG_PORT = 9223
 
 # Base URL for ChatGPT
-PROJECT_URL = "https://chatgpt.com/g/g-p-67a6fa97922c8191b70c9a5f5a59ae01-test-proj-selenium/project"
+PROJECT_URL = "https://chatgpt.com/g/g-p-67a88da23adc8191badfbdef93d4d206/project"
 
 # List of messages to send to ChatGPT
-MESSAGE_LIST = [
-    "Hello, ChatGPT!",
-    "What is the capital of France?",
-    "Can you explain quantum computing in simple terms?",
-    "Tell me a joke.",
-]
-OUT_PATH = "data/conversations.csv"
+MESSAGE_LIST = pd.read_csv("/tmp/messages.csv")["messages"].tolist()
+OUTPUT_FILE = "/tmp/messages_out.csv"
