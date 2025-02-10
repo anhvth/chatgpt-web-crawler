@@ -2,6 +2,7 @@ from os import makedirs
 import time
 from typing import Optional, Dict, List
 import pandas as pd
+from pydash import memoize
 import pyperclip
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -196,15 +197,21 @@ class ChatGPTAutomation:
                 self.visit_page(base_url)
 
                 logger.debug("Sending message")
-                current_url = self.send_message(message)
-                conversation_data.append(
-                    {
-                        "user": message,
-                        "assistant": None,
-                        "link": current_url,
-                        "timestamp": pd.Timestamp.now().isoformat(),
-                    }
-                )
+
+                @memoize
+                def f(message):
+                    current_url = self.send_message(message)
+                    return current_url
+
+                current_url = f(message)
+                output = {
+                    "user": message,
+                    "assistant": None,
+                    "link": current_url,
+                }
+
+                conversation_data.append(output)
+                time.sleep(1)
             except Exception as e:
                 raise e
 
@@ -216,7 +223,7 @@ class ChatGPTAutomation:
     def collect_responses(self, conversation_data: List[Dict]) -> List[Dict]:
         """Collect assistant responses for each conversation."""
         logger.info("Collecting assistant responses")
-        assert 'link' in conversation_data[0]
+        assert "link" in conversation_data[0]
         for conversation in conversation_data:
             logger.info(f"Processing conversation: {conversation['link']}")
             try:

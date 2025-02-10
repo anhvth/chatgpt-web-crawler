@@ -28,7 +28,7 @@ def main():
         output_file = args.csv_file.replace(".csv", "_response.csv")
         df = pd.DataFrame(response)
 
-        df = df[["user", "assistant", "link"]]
+        df = df[["messsages", "user", "assistant", "link"]]
         df.to_csv(
             output_file,
             index=False,
