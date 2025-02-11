@@ -102,14 +102,6 @@ class ChatGPTAutomation:
             self.driver.get(url)
             logger.debug("Waiting for page to load completely")
             WebDriverWait(self.driver, 3).until(EC.url_to_be(url))
-            # # the current page link must be the same as the requested URL
-            # if not self.driver.current_url == url:
-            #     # warning then ask human to login
-            #     logger.warning(
-            #         f"Failed to load page: {url}. Current URL: {self.driver.current_url}"
-            #     )
-            #     raise WebDriverException("Failed to load page")
-
             logger.success(f"Successfully loaded page: {url}")
         except WebDriverException as e:
             logger.error(f"Failed to load {url}: {e}")
