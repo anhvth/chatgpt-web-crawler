@@ -1,6 +1,7 @@
 import argparse
 from chatgpt_selenium.chatgpt_automation import ChatGPTAutomation
-import config
+
+# import config
 from loguru import logger
 import pandas as pd
 
@@ -18,12 +19,16 @@ parser.add_argument(
     help="Collect data from ChatGPT conversations",
 )
 parser.add_argument(
-    "--project-url",
-    type=str,
-    help="URL of the ChatGPT project",
-    default=config.PROJECT_URL,
+    "--project-url", type=str, help="URL of the ChatGPT project", default=None
 )
 args = parser.parse_args()
+
+
+def helper():
+    print(
+        "you must start /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --remote-debugging-port=9223 --user-data-dir=.cache/user_example2"
+    )
+    print("after that you can run this script")
 
 
 def main():
@@ -32,14 +37,14 @@ def main():
 
     try:
         # Initialize automation with debug port from config
-        bot = ChatGPTAutomation(debug_port=config.DEBUG_PORT)
+        bot = ChatGPTAutomation()
 
         # Process conversations and export data
         df = pd.read_csv(args.csv_file)
         assert "messages" in df.columns, "Column 'messages' not found in CSV file"
         MESSAGE_LIST = df["messages"].tolist()
         conversation_data = bot.send_messages(
-            base_url=args.project_url or config.PROJECT_URL, messages=MESSAGE_LIST
+            base_url=args.project_url, messages=MESSAGE_LIST
         )
 
         # Save results with metadata

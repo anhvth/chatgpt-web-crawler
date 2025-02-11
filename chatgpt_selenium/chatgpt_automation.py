@@ -1,22 +1,26 @@
-from os import makedirs
 import time
-from typing import Optional, Dict, List
+from dataclasses import dataclass
+from os import makedirs
+from typing import Dict, List, Optional
+
 import pandas as pd
-from pydash import memoize
 import pyperclip
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.common.exceptions import TimeoutException, WebDriverException
 from loguru import logger
-import config
+from pydash import memoize
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException, WebDriverException
+from selenium.webdriver.common.by import By
+
+# import config
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from chatgpt_selenium.config import Config
 
 
 def _send_message_clipboard(textarea, formatted_message, timeout=180):
-    import pyperclip
 
     if textarea.get_attribute("value"):
         print("Text area should be empty")
@@ -44,6 +48,7 @@ class ChatGPTAutomation:
     def _get_config() -> Dict:
         """Retrieve configuration from config module."""
         logger.info("Loading configuration settings")
+        config = Config()
         config_dict = {
             "CHROME_DRIVER_PATH": config.CHROME_DRIVER_PATH,
             "DEFAULT_WAIT_TIME": config.DEFAULT_WAIT_TIME,
