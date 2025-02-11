@@ -25,8 +25,8 @@ LOG_DIR = "data/logs"
 DEBUG_PORT = 9223
 
 # Base URL for ChatGPT
-PROJECT_URL = "https://chatgpt.com/g/g-p-67aa1a793a808191b64765ff50fc6e83-label-qa-type/project"
+# PROJECT_URL = "https://chatgpt.com/g/g-p-67aa1a793a808191b64765ff50fc6e83-label-qa-type/project"
 
 # List of messages to send to ChatGPT
-MESSAGE_LIST = pd.read_csv("/tmp/batch_msgs.csv")["messages"].tolist()
+
 OUTPUT_FILE = "/tmp/batch_msgs_step1.csv"

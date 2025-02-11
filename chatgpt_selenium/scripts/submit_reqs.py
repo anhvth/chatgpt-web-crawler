@@ -7,17 +7,24 @@ import pandas as pd
 
 parser = argparse.ArgumentParser(description="ChatGPT automation script")
 parser.add_argument(
+    "csv_file",
+    type=str,
+    default="/tmp/messages.csv",
+    help="Path to the CSV file with messages",
+)
+parser.add_argument(
     "--collect-data",
     action="store_true",
     help="Collect data from ChatGPT conversations",
 )
 parser.add_argument(
-    "--csv-file",
+    "--project-url",
     type=str,
-    default="data/messages.csv",
-    help="Path to the CSV file with messages",
+    help="URL of the ChatGPT project",
+    default=config.PROJECT_URL,
 )
 args = parser.parse_args()
+
 
 def main():
     """Main execution flow."""
@@ -28,17 +35,19 @@ def main():
         bot = ChatGPTAutomation(debug_port=config.DEBUG_PORT)
 
         # Process conversations and export data
+        df = pd.read_csv(args.csv_file)
+        assert "messages" in df.columns, "Column 'messages' not found in CSV file"
+        MESSAGE_LIST = df["messages"].tolist()
         conversation_data = bot.send_messages(
-            base_url=config.PROJECT_URL, messages=config.MESSAGE_LIST
+            base_url=args.project_url or config.PROJECT_URL, messages=MESSAGE_LIST
         )
 
         # Save results with metadata
         df = pd.DataFrame(conversation_data)
         df.to_csv(
-            config.OUTPUT_FILE,
+            args.input_file.replace(".csv", "_submited.csv"),
             index=False,
             encoding="utf-8-sig",
-            date_format="%Y-%m-%d %H:%M:%S",
         )
         logger.success(f"Successfully processed {len(conversation_data)} conversations")
     except Exception as e:
