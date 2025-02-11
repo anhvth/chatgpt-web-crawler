@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-
+import os
 setup(
     name="chatgpt-selenium",
     version="0.1.0",
@@ -8,7 +8,7 @@ setup(
         "selenium>=4.0.0",
     ],
     author="AnhVTH",
-    author_email="anhvth.226@gmail.com"
+    author_email="anhvth.226@gmail.com",
     description="A package for interacting with ChatGPT using Selenium",
     long_description=open("README.md").read() if os.path.exists("README.md") else "",
     long_description_content_type="text/markdown",
