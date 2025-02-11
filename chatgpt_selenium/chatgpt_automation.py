@@ -156,13 +156,7 @@ class ChatGPTAutomation:
                 logger.debug("Waiting for copy turn message")
                 time.sleep(1)
                 try:
-                    # response_element = d.find_element(
-                    #     By.CSS_SELECTOR, "div[data-message-author-role='assistant'] div.markdown"
-                    # )
-                    copy_button = d.find_element(
-                        By.CSS_SELECTOR, "button[aria-label='Copy']"
-                    )
-                    # copy_button.is_displayed()
+                    d.find_element(By.CSS_SELECTOR, "button[aria-label='Copy']")
                     return True
                 except:
                     return False
