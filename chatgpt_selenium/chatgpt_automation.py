@@ -227,9 +227,14 @@ class ChatGPTAutomation:
         for conversation in conversation_data:
             logger.info(f"Processing conversation: {conversation['link']}")
             try:
-                self.visit_page(conversation["link"])
-                response = self._wait_for_response()
-                conversation["assistant"] = response
+
+                @memoize
+                def get_response(link):
+                    self.visit_page(link)
+                    response = self._wait_for_response()
+                    return response
+
+                conversation["assistant"] = get_response(conversation["link"])
             except TimeoutException:
                 logger.warning("Response timeout or incomplete response")
                 continue
