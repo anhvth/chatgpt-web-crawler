@@ -9,13 +9,13 @@ from loguru import logger
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
-
 # import config
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from speedy_utils import memoize
+
 from chatgpt_selenium.config import Config
 
 
@@ -183,7 +183,6 @@ class ChatGPTAutomation:
 
         for idx, message in enumerate(messages, 1):
             logger.info(f"Processing message {idx}/{len(messages)}")
-            import ipdb; ipdb.set_trace()
             try:
                 logger.debug("Starting new conversation")
                 self.visit_page(base_url)

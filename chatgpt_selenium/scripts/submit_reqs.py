@@ -15,11 +15,12 @@ parser.add_argument(
 )
 parser.add_argument(
     "--collect-data",
+    "-cl",
     action="store_true",
     help="Collect data from ChatGPT conversations",
 )
 parser.add_argument(
-    "--project-url", type=str, help="URL of the ChatGPT project", default=None
+    "--project-url", "-p", type=str, help="URL of the ChatGPT project", required=True
 )
 args = parser.parse_args()
 
@@ -36,7 +37,7 @@ def main():
     logger.info("Starting ChatGPT automation")
 
     # try:
-        # Initialize automation with debug port from config
+    # Initialize automation with debug port from config
     bot = ChatGPTAutomation()
 
     # Process conversations and export data
@@ -46,8 +47,6 @@ def main():
     conversation_data = bot.send_messages(
         base_url=args.project_url, messages=MESSAGE_LIST
     )
-    import ipdb; ipdb.set_trace()
-
     # Save results with metadata
     df = pd.DataFrame(conversation_data)
     df.to_csv(
