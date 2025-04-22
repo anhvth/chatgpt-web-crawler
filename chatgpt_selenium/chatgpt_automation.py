@@ -6,7 +6,6 @@ from typing import Dict, List, Optional
 import pandas as pd
 import pyperclip
 from loguru import logger
-from pydash import memoize
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
@@ -16,7 +15,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
+from speedy_utils import memoize
 from chatgpt_selenium.config import Config
 
 
@@ -172,6 +171,7 @@ class ChatGPTAutomation:
         self, base_url: str, messages: List[str]
     ) -> List[Dict]:
         """Process list of messages through ChatGPT conversations."""
+        assert base_url, f"{base_url=} is invalid"
         conversation_data = self.send_messages(base_url, messages)
         logger.info("All messages sent. Collecting responses")
         conversation_data = self.collect_responses(conversation_data)
@@ -183,6 +183,7 @@ class ChatGPTAutomation:
 
         for idx, message in enumerate(messages, 1):
             logger.info(f"Processing message {idx}/{len(messages)}")
+            import ipdb; ipdb.set_trace()
             try:
                 logger.debug("Starting new conversation")
                 self.visit_page(base_url)

@@ -35,32 +35,33 @@ def main():
     """Main execution flow."""
     logger.info("Starting ChatGPT automation")
 
-    try:
+    # try:
         # Initialize automation with debug port from config
-        bot = ChatGPTAutomation()
+    bot = ChatGPTAutomation()
 
-        # Process conversations and export data
-        df = pd.read_csv(args.csv_file)
-        assert "messages" in df.columns, "Column 'messages' not found in CSV file"
-        MESSAGE_LIST = df["messages"].tolist()
-        conversation_data = bot.send_messages(
-            base_url=args.project_url, messages=MESSAGE_LIST
-        )
+    # Process conversations and export data
+    df = pd.read_csv(args.csv_file)
+    assert "messages" in df.columns, "Column 'messages' not found in CSV file"
+    MESSAGE_LIST = df["messages"].tolist()
+    conversation_data = bot.send_messages(
+        base_url=args.project_url, messages=MESSAGE_LIST
+    )
+    import ipdb; ipdb.set_trace()
 
-        # Save results with metadata
-        df = pd.DataFrame(conversation_data)
-        df.to_csv(
-            args.input_file.replace(".csv", "_submited.csv"),
-            index=False,
-            encoding="utf-8-sig",
-        )
-        logger.success(f"Successfully processed {len(conversation_data)} conversations")
-    except Exception as e:
-        import traceback
+    # Save results with metadata
+    df = pd.DataFrame(conversation_data)
+    df.to_csv(
+        args.input_file.replace(".csv", "_submited.csv"),
+        index=False,
+        encoding="utf-8-sig",
+    )
+    logger.success(f"Successfully processed {len(conversation_data)} conversations")
+    # except Exception as e:
+    #     import traceback
 
-        traceback.print_exc()
-        logger.critical(f"Fatal error in main execution: {e}")
-        return 1
+    #     traceback.print_exc()
+    #     logger.critical(f"Fatal error in main execution: {e}")
+    #     return 1
 
     return 0
 

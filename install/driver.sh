@@ -1,6 +1,6 @@
 # Step 1: look for the chromedriver version at  https://googlechromelabs.github.io/chrome-for-testing/#stable
 set -e
-url=https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.53/mac-arm64/chromedriver-mac-arm64.zip
+url=https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.95/mac-arm64/chromedriver-mac-arm64.zip
 target_binary=binary/chromedriver-mac-arm64/chromedriver
 rm -rf binary/chromedriver-mac-arm64
 mkdir -p binary/chromedriver-mac-arm64
