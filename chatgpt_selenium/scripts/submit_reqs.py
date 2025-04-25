@@ -41,7 +41,7 @@ def main():
     bot = ChatGPTAutomation()
 
     # Process conversations and export data
-    df = pd.read_csv(args.csv_file)
+    df = pd.read_csv(args.csv_file)[:100]
     assert "messages" in df.columns, "Column 'messages' not found in CSV file"
     MESSAGE_LIST = df["messages"].tolist()
     conversation_data = bot.send_messages(

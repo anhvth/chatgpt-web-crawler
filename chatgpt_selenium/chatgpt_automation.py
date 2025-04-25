@@ -24,13 +24,14 @@ def _send_message_clipboard(textarea, formatted_message, timeout=180):
     if textarea.get_attribute("value"):
         print("Text area should be empty")
         textarea.clear()
-        time.sleep(1)
+        time.sleep(3)
 
     pyperclip.copy(formatted_message)
     textarea.click()
+    time.sleep(3)
     textarea.send_keys(Keys.COMMAND, "v")  # paste
 
-    time.sleep(10)
+    time.sleep(3)
     textarea.send_keys(Keys.ENTER)
 
 
@@ -180,9 +181,10 @@ class ChatGPTAutomation:
     def send_messages(self, base_url: str, messages: List[str]) -> List[Dict]:
         logger.info(f"Starting conversation processing for {len(messages)} messages")
         conversation_data = []
-        visited = False
-        for idx, message in enumerate(messages, 1):
-            logger.info(f"Processing message {idx}/{len(messages)}")
+        # visited = False
+        from tqdm import tqdm
+        for idx, message in tqdm(enumerate(messages, 1)):
+            logger.info(f"{idx}/{len(messages)} Seending message: {message[:100]}")
             try:
                 logger.debug("Starting new conversation")
                 if not self.driver.current_url == base_url:
@@ -197,9 +199,9 @@ class ChatGPTAutomation:
                     return current_url
                 
                 current_url = f(base_url, message)
-                if visited:
-                    continue
-                    time.sleep(5)
+                # if visited:
+                #     continue
+                #     time.sleep(5)
                 logger.info(f'{idx} Returned {current_url}')
                 output = {
                     "user": message,
@@ -208,6 +210,7 @@ class ChatGPTAutomation:
                 }
 
                 conversation_data.append(output)
+                time.sleep(3)
                 
             except Exception as e:
                 raise e
