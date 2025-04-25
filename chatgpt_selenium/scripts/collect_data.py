@@ -1,6 +1,6 @@
 import argparse
 from chatgpt_selenium.chatgpt_automation import ChatGPTAutomation
-import config
+# import config
 from loguru import logger
 import pandas as pd
 
@@ -21,7 +21,7 @@ def main():
 
     try:
         # Initialize automation with debug port from config
-        bot = ChatGPTAutomation(debug_port=config.DEBUG_PORT)
+        bot = ChatGPTAutomation(debug_port=9223)
         df = pd.read_csv(args.csv_file)
         records = df.to_dict(orient="records")
         response = bot.collect_responses(records)
@@ -34,6 +34,7 @@ def main():
             index=False,
         )
         logger.success(f"Successfully processed {len(response)} conversations")
+        logger.info(f'Output saved to {output_file}')
 
     except Exception as e:
         import traceback

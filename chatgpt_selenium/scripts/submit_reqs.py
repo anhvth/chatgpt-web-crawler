@@ -49,18 +49,14 @@ def main():
     )
     # Save results with metadata
     df = pd.DataFrame(conversation_data)
+    outfile = args.csv_file.replace(".csv", "_submited.csv")
     df.to_csv(
-        args.input_file.replace(".csv", "_submited.csv"),
+        outfile,
         index=False,
         encoding="utf-8-sig",
     )
-    logger.success(f"Successfully processed {len(conversation_data)} conversations")
-    # except Exception as e:
-    #     import traceback
+    logger.success(f"Successfully processed {len(conversation_data)} conversations\n{outfile}")
 
-    #     traceback.print_exc()
-    #     logger.critical(f"Fatal error in main execution: {e}")
-    #     return 1
 
     return 0
 

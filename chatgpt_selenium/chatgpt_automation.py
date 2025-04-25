@@ -30,7 +30,7 @@ def _send_message_clipboard(textarea, formatted_message, timeout=180):
     textarea.click()
     textarea.send_keys(Keys.COMMAND, "v")  # paste
 
-    time.sleep(0.5)
+    time.sleep(10)
     textarea.send_keys(Keys.ENTER)
 
 
@@ -180,21 +180,27 @@ class ChatGPTAutomation:
     def send_messages(self, base_url: str, messages: List[str]) -> List[Dict]:
         logger.info(f"Starting conversation processing for {len(messages)} messages")
         conversation_data = []
-
+        visited = False
         for idx, message in enumerate(messages, 1):
             logger.info(f"Processing message {idx}/{len(messages)}")
             try:
                 logger.debug("Starting new conversation")
-                self.visit_page(base_url)
+                if not self.driver.current_url == base_url:
+                    self.visit_page(base_url)
+                    visited = True
 
                 logger.debug("Sending message")
 
                 @memoize
-                def f(message):
+                def f(base_url, message):
                     current_url = self.send_message(message)
                     return current_url
-
-                current_url = f(message)
+                
+                current_url = f(base_url, message)
+                if visited:
+                    continue
+                    time.sleep(5)
+                logger.info(f'{idx} Returned {current_url}')
                 output = {
                     "user": message,
                     "assistant": None,
@@ -202,7 +208,7 @@ class ChatGPTAutomation:
                 }
 
                 conversation_data.append(output)
-                time.sleep(1)
+                
             except Exception as e:
                 raise e
 
