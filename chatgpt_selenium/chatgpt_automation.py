@@ -1,4 +1,5 @@
 import time
+import sys
 from dataclasses import dataclass
 from os import makedirs
 from typing import Dict, List, Optional
@@ -29,7 +30,14 @@ def _send_message_clipboard(textarea, formatted_message, timeout=180):
     pyperclip.copy(formatted_message)
     textarea.click()
     time.sleep(3)
-    textarea.send_keys(Keys.COMMAND, "v")  # paste
+    if sys.platform == "darwin":  # macOS
+        modifier_key = Keys.COMMAND
+    elif sys.platform.startswith("linux"):  # Linux
+        modifier_key = Keys.CONTROL
+    elif sys.platform == "win32":  # Windows
+        modifier_key = Keys.CONTROL
+    else:
+        raise OSError(f"Unsupported operating system for paste action: {sys.platform}")
 
     time.sleep(3)
     textarea.send_keys(Keys.ENTER)
